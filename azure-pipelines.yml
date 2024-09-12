@@ -32,7 +32,7 @@ stages:
         effectivePomSkip: false
         sonarQubeRunAnalysis: false
     - task: Docker@2
-      displayName: Build an image
+      displayName: Build and push docker image
       inputs:
         command: build
         dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
@@ -45,3 +45,8 @@ stages:
         artifactoryService: 'Art_SVC_conn'
         targetRepo: 'docker-local'
         imageName: '$(imageName):$(tag)'
+      displayName: 'Publish'
+    - task: Docker@2
+      inputs:
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
